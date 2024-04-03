@@ -9,7 +9,8 @@ import Foundation
 
 class CoinSViewModel: ObservableObject {
     
-    @Published var coin = [Coin]()
+    @Published var coins = [Coin]()
+    @Published var errorMessage: String?
    
     
     private let service = CoinDataServices()
@@ -20,9 +21,26 @@ class CoinSViewModel: ObservableObject {
     }
     
     func fetchCoin(){
-        service.fetchCoins { coins in
+        
+        // we use this when we use the optional values
+//        service.fetchCoins { coins, error in
+//            DispatchQueue.main.async{
+//                if let error = error {
+//                    self.errorMessage = error.localizedDescription
+//                    return
+//                }
+//                self.coin = coins ?? []
+//            }
+//        }
+        
+        service.fetchCoinsWithResults{ Result in
             DispatchQueue.main.async{
-                self.coin = coins
+                switch Result {
+                case .success(let coins):
+                    self.coins = coins
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
             }
         }
     }

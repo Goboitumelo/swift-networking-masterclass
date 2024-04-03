@@ -17,12 +17,26 @@ struct ContentView: View {
     
     var body: some View {
         List{
-            ForEach(viewModel.coin) { Coin in
-                Text(Coin.name)
-                
+            ForEach(viewModel.coins) { Coin in
+                HStack(spacing: 12){
+                    Text("\(Coin.market_cap_rank)")
+                        .foregroundStyle(.gray)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(Coin.name)
+                            .fontWeight(.semibold)
+                        
+                        Text(Coin.symbol.uppercased())
+                    }
+                    
+                }
+                .font(.footnote)
             }
         }
-        
+        .overlay{
+            if let error = viewModel.errorMessage{
+                Text(error)
+            }
+        }
     }
     
     
