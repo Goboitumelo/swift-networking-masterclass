@@ -20,7 +20,7 @@ class CoinSViewModel: ObservableObject {
         Task{ try await fetchCoins() }
     }
     
-    func fetchCoins() async throws{
+    @MainActor func fetchCoins() async throws {
             self.coins = try await service.fecthcoins()
     }
     
