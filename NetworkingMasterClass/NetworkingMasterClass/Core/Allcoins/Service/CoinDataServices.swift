@@ -11,6 +11,27 @@ class CoinDataServices{
     
     private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=zar&order=market_cap_desc&per_page=10&sparkline=false&price_change_percentage=24h&locale=en"
     
+    // Mark: Async function
+    
+    func fecthcoins() async throws -> [Coin]{
+        guard let url = URL(string: urlString) else {return []}
+        
+        do{
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let coins = try JSONDecoder().decode([Coin].self, from: data)
+            return coins
+        }catch{
+            print("DEBUG: our data is \(error.localizedDescription)")
+            return []
+        }
+        
+    }
+
+}
+
+//Mark: completion handler stuff
+
+extension CoinDataServices {
     func fetchCoinsWithResults(completion: @escaping(Result<[Coin], CoinAPIError>) -> Void ){
         guard let url = URL(string: urlString) else {return}
         URLSession.shared.dataTask(with: url){data, response, error in
@@ -41,31 +62,6 @@ class CoinDataServices{
             }
         }.resume()
     }
-    
-    
-    func fetchCoins(completion: @escaping([Coin]?, Error?) -> Void ){
-        guard let url = URL(string: urlString) else {return}
-        URLSession.shared.dataTask(with: url){data, response, error in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            guard let data = data else {return}
-//            let dataString = String(data: data, encoding: .utf8)
-//            print("DEBUG: coin data \(dataString)")
-            
-            guard let coins = try? JSONDecoder().decode([Coin].self, from: data) else {return}
-            // print("DEBUG: Coins decoded \(coins)")
-            
-            for coin in coins {
-                print("DEBUG: Coin id \(coin.name)")
-            }
-            
-            completion(coins, nil)
-            
-        }.resume()
-    }
-    
     
     func fetchPrice(coin: String, completion: @escaping(Double) -> Void) {
         let urlString = "https://api.coingecko.com/api/v3/simple/price?ids=\(coin)&vs_currencies=zar"
@@ -101,6 +97,4 @@ class CoinDataServices{
         }.resume()
         
     }
-    
-    
 }

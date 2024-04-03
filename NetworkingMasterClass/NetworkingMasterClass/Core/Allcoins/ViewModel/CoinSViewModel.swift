@@ -17,10 +17,14 @@ class CoinSViewModel: ObservableObject {
     
     init() {
         //fetchPrice(coin: "bitcoin")
-        fetchCoin()
+        Task{ try await fetchCoins() }
     }
     
-    func fetchCoin(){
+    func fetchCoins() async throws{
+            self.coins = try await service.fecthcoins()
+    }
+    
+    func fetchCoinWithCompletionHandler(){
         
         // we use this when we use the optional values
 //        service.fetchCoins { coins, error in
