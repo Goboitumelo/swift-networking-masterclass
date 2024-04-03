@@ -9,9 +9,8 @@ import Foundation
 
 class CoinSViewModel: ObservableObject {
     
-    @Published var coin = ""
-    @Published var price = ""
-    @Published var errorMesaage: String?
+    @Published var coin = [Coin]()
+   
     
     private let service = CoinDataServices()
     
@@ -21,16 +20,10 @@ class CoinSViewModel: ObservableObject {
     }
     
     func fetchCoin(){
-        service.fetchCoins()
-    }
-    
-    func fetchPrice(coin: String) {
-        service.fetchPrice(coin: coin) { priceFromService in
+        service.fetchCoins { coins in
             DispatchQueue.main.async{
-                self.price = "R\(priceFromService)"
-                self.coin = coin
+                self.coin = coins
             }
         }
     }
-    
 }

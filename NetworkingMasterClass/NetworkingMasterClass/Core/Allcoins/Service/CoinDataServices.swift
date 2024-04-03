@@ -11,7 +11,7 @@ class CoinDataServices{
     
     private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=zar&order=market_cap_desc&per_page=10&sparkline=false&price_change_percentage=24h&locale=en"
     
-    func fetchCoins(){
+    func fetchCoins(completion: @escaping([Coin]) -> Void ){
         guard let url = URL(string: urlString) else {return}
         URLSession.shared.dataTask(with: url){data, response, error in
             guard let data = data else {return}
@@ -19,11 +19,13 @@ class CoinDataServices{
 //            print("DEBUG: coin data \(dataString)")
             
             guard let coins = try? JSONDecoder().decode([Coin].self, from: data) else {return}
-            print("DEBUG: Coins decoded \(coins)")
+            // print("DEBUG: Coins decoded \(coins)")
             
             for coin in coins {
-                print("DEBUG: Coin id \(coin.id)")
+                print("DEBUG: Coin id \(coin.name)")
             }
+            
+            completion(coins)
             
         }.resume()
     }

@@ -16,16 +16,12 @@ struct ContentView: View {
     @Query private var items: [Item]
     
     var body: some View {
-        VStack{
-            
-            if let errorMessage = viewModel.errorMesaage{
-                Text(errorMessage)
-            } else{
+        List{
+            ForEach(viewModel.coin) { Coin in
+                Text(Coin.name)
                 
-                Text("\(viewModel.coin) : \(viewModel.price)")
             }
         }
-        .padding()
         
     }
     
