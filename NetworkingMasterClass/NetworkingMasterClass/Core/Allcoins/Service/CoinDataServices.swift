@@ -11,26 +11,34 @@ class CoinDataServices{
     
     private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=zar&order=market_cap_desc&per_page=10&sparkline=false&price_change_percentage=24h&locale=en"
     
-    func fetchCoinsWithResults(completion: @escaping(Result<[Coin], Error>) -> Void ){
+    func fetchCoinsWithResults(completion: @escaping(Result<[Coin], CoinAPIError>) -> Void ){
         guard let url = URL(string: urlString) else {return}
         URLSession.shared.dataTask(with: url){data, response, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(.unknownError(error: error)))
                 return
             }
-            guard let data = data else {return}
-//            let dataString = String(data: data, encoding: .utf8)
-//            print("DEBUG: coin data \(dataString)")
-            
-            guard let coins = try? JSONDecoder().decode([Coin].self, from: data) else {return}
-            // print("DEBUG: Coins decoded \(coins)")
-            
-            for coin in coins {
-                print("DEBUG: Coin id \(coin.name)")
+            guard let httpResponse = response as? HTTPURLResponse else{
+                completion(.failure(.requestFailled(description: "Request failed")))
+                return
             }
             
-            completion(.success(coins))
+            guard httpResponse.statusCode == 200 else{
+                completion(.failure(.invalidStatusCode(statusCode: httpResponse.statusCode)))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
+            }
             
+            do {
+                let coins = try JSONDecoder().decode([Coin].self, from: data)
+                completion(.success(coins))
+            }catch{
+                print("DEBUG: Failed to decode with \(error)")
+                completion(.failure(.jsonParsingFailure))
+            }
         }.resume()
     }
     

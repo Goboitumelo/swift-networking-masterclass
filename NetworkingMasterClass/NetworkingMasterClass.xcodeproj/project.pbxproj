@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6048C1EC2BBD34CE00065210 /* CoinAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6048C1EB2BBD34CE00065210 /* CoinAPIError.swift */; };
 		60BFB54F2BAB07C30045E993 /* NetworkingMasterClassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFB54E2BAB07C30045E993 /* NetworkingMasterClassApp.swift */; };
 		60BFB5512BAB07C30045E993 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFB5502BAB07C30045E993 /* ContentView.swift */; };
 		60BFB5532BAB07C30045E993 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFB5522BAB07C30045E993 /* Item.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6048C1EB2BBD34CE00065210 /* CoinAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinAPIError.swift; sourceTree = "<group>"; };
 		60BFB54B2BAB07C30045E993 /* NetworkingMasterClass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkingMasterClass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BFB54E2BAB07C30045E993 /* NetworkingMasterClassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingMasterClassApp.swift; sourceTree = "<group>"; };
 		60BFB5502BAB07C30045E993 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				60BFB5862BB410990045E993 /* Coin.swift */,
+				6048C1EB2BBD34CE00065210 /* CoinAPIError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				60BFB5532BAB07C30045E993 /* Item.swift in Sources */,
 				60BFB54F2BAB07C30045E993 /* NetworkingMasterClassApp.swift in Sources */,
 				60BFB5852BB4058D0045E993 /* CoinDataServices.swift in Sources */,
+				6048C1EC2BBD34CE00065210 /* CoinAPIError.swift in Sources */,
 				60BFB5822BAB0BE90045E993 /* CoinSViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

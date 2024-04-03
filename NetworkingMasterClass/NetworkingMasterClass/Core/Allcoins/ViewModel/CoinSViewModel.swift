@@ -32,14 +32,14 @@ class CoinSViewModel: ObservableObject {
 //                self.coin = coins ?? []
 //            }
 //        }
-        
-        service.fetchCoinsWithResults{ Result in
+        // we use weak self to avaid retain cycle(obeject that strong refence each other)
+        service.fetchCoinsWithResults{[weak self] Result in
             DispatchQueue.main.async{
                 switch Result {
                 case .success(let coins):
-                    self.coins = coins
+                    self?.coins = coins
                 case .failure(let error):
-                    self.errorMessage = error.localizedDescription
+                    self?.errorMessage = error.localizedDescription
                 }
             }
         }
